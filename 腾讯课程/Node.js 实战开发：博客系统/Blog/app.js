@@ -4,6 +4,8 @@
 var express = require('express');
 //加载模板处理模块
 var swig = require('swig');
+//加载数据库模块
+var mongoose = require('mongoose');
 //创建app应用
 var app = express();
 
@@ -31,5 +33,6 @@ app.use('/admin',require('./routers/admin'));
 app.use('/api',require('./routers/api'));
 // app.use('/',require('./routers/main'));
 
+mongoose.connect();
 //监听app请求
 app.listen(8081);
