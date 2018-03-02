@@ -11,7 +11,7 @@ var app = express();
 
 //设置静态文件托管
 // 当用户访问的url以/public开始,那么直接返回对应__dirname + '/public'下的文件
-app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 //配置模板
 //定义当前应用使用的模板引擎
