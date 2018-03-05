@@ -6,6 +6,8 @@ var express = require('express');
 var swig = require('swig');
 //加载数据库模块
 var mongoose = require('mongoose');
+//加载body-parser,用来处理post提交过来的数据
+var bodyParser = require('body-parser');
 //创建app应用
 var app = express();
 
@@ -27,6 +29,8 @@ app.set('view engine', 'html');
 swig.setDefaults({
     cache: false
 });
+//body-parser设置
+app.use(bodyParser.urlencoded({extended:true}));
 
 //根据不同的功能划分模块
 app.use('/admin', require('./routers/admin'));
