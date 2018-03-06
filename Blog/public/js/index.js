@@ -57,16 +57,21 @@ $(function () {
 
                 if (!result.code) {
                     //登录成功
-                    setTimeout(function () {
-                        $loginBox.hide();
-                        $userInfo.show();
-
-                        //显示登录用户的信息
-                        $userInfo.find('.username').html(result.userInfo.username);
-                        $userInfo.find('.info').html('您好，欢迎光临我的博客');
-                    }, 1000)
+                    window.location.reload();
                 }
             }
         })
     });
+
+    //退出
+    $('#logout').on('click',function () {
+        $.ajax({
+            url:'/api/user/logout',
+            success:function (result) {
+                if (!result.code) {
+                    window.location.reload();
+                }
+            }
+        })
+    })
 })

@@ -8,6 +8,8 @@ var swig = require('swig');
 var mongoose = require('mongoose');
 //加载body-parser,用来处理post提交过来的数据
 var bodyParser = require('body-parser');
+//加载cookies模块
+var Cookies = require('cookies');
 //创建app应用
 var app = express();
 
@@ -31,6 +33,21 @@ swig.setDefaults({
 });
 //body-parser设置
 app.use(bodyParser.urlencoded({extended:true}));
+//设置cookie
+app.use(function (req, res, next) {
+    req.cookies = new Cookies(req, res);
+
+    req.userInfo = {};
+
+    if (req.cookies.get('userInfo')) {
+        try {
+            req.userInfo = JSON.parse(req.cookies.get('userInfo'));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    return next();
+});
 
 //根据不同的功能划分模块
 app.use('/admin', require('./routers/admin'));

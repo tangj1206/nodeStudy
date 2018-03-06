@@ -71,10 +71,14 @@ router.post('/user/register', function (req, res, next) {
             username: username,
             password: password
         });
-        return user.save();
+        user.save();
+        return ;
     }).then(function (newUserInfo) {
         responseData.message = '注册成功';
         res.json(responseData);
+        return;
+    }).catch(function (reason) {
+        console.log('处理失败的 promise ('+reason+')');
     });
 });
 
@@ -86,7 +90,8 @@ router.post('/user/login', function (req, res, next) {
     if (username == '' || password == '') {
         responseData.code = 1;
         responseData.message = '用户名或密码不能为空';
-        return res.json(responseData);
+        res.json(responseData);
+        return ;
     }
 
     //查询数据库中相同用户名和密码的记录是否存在，如果存在则登录成功
@@ -106,8 +111,21 @@ router.post('/user/login', function (req, res, next) {
             _id: userInfo._id,
             username: userInfo.username
         }
+        req.cookies.set('userInfo',JSON.stringify({
+            _id: userInfo._id,
+            username: userInfo.username
+        }));
         res.json(responseData);
         return;
+    }).catch(function (reason) {
+        console.log('处理失败的 promise ('+reason+')');
     });
+})
+
+//退出
+router.get('/user/logout',function (req, res, next) {
+    req.cookies.set('userInfo',null);
+    res.json(responseData);
+    return;
 })
 module.exports = router;
