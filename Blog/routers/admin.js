@@ -53,4 +53,21 @@ router.get('/user', function (req, res, next) {
         });
     });
 });
+
+/** 
+ * 分类首页
+*/
+router.get('/category',function(req, res){
+    res.render('admin/category_index',{
+        userInfo:req.userInfo
+    })
+});
+/** 
+ * 分类的添加
+*/
+router.get('/category/add', function (req, res, next) {
+    res.render('admin/category_add',{
+        userInfo:req.userInfo
+    })
+})
 module.exports = router;
