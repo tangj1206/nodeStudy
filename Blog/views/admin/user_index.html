@@ -10,6 +10,8 @@
 </ol>
 
 <h3>用户列表</h3>
+
+{% include 'page.html' %}
 <table class="table table-striped">
     <tr>
         <th>ID</th>
@@ -27,20 +29,7 @@
     {%endfor %}
 
 </table>
-<nav aria-label="...">
-    <ul class="pager">
-        <li class="previous">
-            <a href="/admin/user?page={{ page-1 }}">
-                <span aria-hidden="true">&larr;</span> 上一页</a>
-        </li>
-        <li>
-            一共有{}条数据，每页显示 2 条数据，一共 50 页，当前第 1 页
-        </li>
-        <li class="next">
-                <a href="/admin/user?page={{ page+1 }}">下一页<span aria-hidden="true">&rarr;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+
+{% include 'page.html' %}
 
 {%endblock%}

@@ -44,6 +44,10 @@ router.get('/user', function (req, res, next) {
             res.render('admin/user_index', {
                 userInfo: req.userInfo,
                 users: users,
+
+                count:count,
+                pages:pages,
+                limit:limit,
                 page: page
             });
         });
