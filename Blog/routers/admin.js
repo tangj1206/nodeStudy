@@ -307,7 +307,7 @@ router.get('/content', function (req, res, next) {
          * */
         Content.find().sort({
             _id: -1
-        }).limit(limit).skip(skip).then(function (contents) {
+        }).limit(limit).skip(skip).populate('category').then(function (contents) {
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
