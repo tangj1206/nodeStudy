@@ -190,7 +190,7 @@ router.post('/category/edit', function(req, res) {
             return Promise.reject();
         } else {
             //当用户没有做任何的修改提交的时候
-            if (name == category.name) {
+            if (name == category.name) { 
                 res.render('admin/success', {
                     userInfo: req.userInfo,
                     message: '修改成功',
