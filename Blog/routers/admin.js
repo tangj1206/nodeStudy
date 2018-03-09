@@ -325,7 +325,9 @@ router.get('/content', function (req, res, next) {
  * 内容页添加页面
  */
 router.get('/content/add', function (req, res, next) {
-    Category.find().sort({_id: -1}).then(function (categories) {
+    Category.find().sort({
+        _id: -1
+    }).then(function (categories) {
         res.render('admin/content_add', {
             userInfo: req.userInfo,
             categories: categories
@@ -334,63 +336,71 @@ router.get('/content/add', function (req, res, next) {
 })
 /** 
  * 内容保存
-*/
-router.post('/content/add',function (req,res,next) {
-    
+ */
+router.post('/content/add', function (req, res, next) {
+
     if (req.body.category == '') {
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message:'分类内容不能为空'
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '分类内容不能为空'
         })
         return;
     }
     if (req.body.title == '') {
-        res.render('admin/error',{
-            userInfo:req.userInfo,
-            message:'内容标题不能为空'
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容标题不能为空'
         })
         return;
     }
 
     //保存数据到数据库
     new Content({
-        category:req.body.category,
-        title:req.body.title,
-        description:req.body.description,
-        content:req.body.content
+        category: req.body.category,
+        title: req.body.title,
+        description: req.body.description,
+        content: req.body.content
     }).save().then(function (rs) {
-        res.render('admin/success',{
-            userInfo:req.userInfo,
-            message:'内容保存成功',
-            url:'admin/content'
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '内容保存成功',
+            url: '/admin/content'
         })
     })
 });
 
 /*
  * 修改内容
-*/
-router.get('/content/edit',function(req, res, next){
-    
+ */
+router.get('/content/edit', function (req, res, next) {
+
     var id = req.query.id || '';
-    console.log(id);
-    Content.find({
-        _id:id
-    }).then(function(content){
+    var categories = []
+
+    Category.find().sort({
+        _id: -1
+    }).then(function (rs) {
+        categories = rs;
+
+        return Content.findOne({
+            _id: id
+        }).populate('category');
+    }).then(function (content) {
         if (!content) {
-            res.render('admin/error',{
-                userInfo:req.userInfo,
-                message:'指定内容不存在'
+            res.render('admin/error', {
+                userInfo: req.userInfo,
+                message: '指定内容不存在'
             });
             return Promise.reject();
-        }else{
-            res.render('admin/content_edit',{
-                userInfo:req.userInfo,
-                content:content
+        } else {
+        console.log(categories,content)
+            
+            res.render('admin/content_edit', {
+                userInfo: req.userInfo,
+                content: content,
+                categories: categories
             })
         }
-    }).catch(function(){
-
     })
 })
 
