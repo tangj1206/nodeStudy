@@ -361,8 +361,38 @@ router.post('/content/add',function (req,res,next) {
     }).save().then(function (rs) {
         res.render('admin/success',{
             userInfo:req.userInfo,
-            message:'内容保存成功'
+            message:'内容保存成功',
+            url:'admin/content'
         })
     })
 });
+
+/*
+ * 修改内容
+*/
+router.get('/content/edit',function(req, res, next){
+    
+    var id = req.query.id || '';
+    console.log(id);
+    Content.find({
+        _id:id
+    }).then(function(content){
+        if (!content) {
+            res.render('admin/error',{
+                userInfo:req.userInfo,
+                message:'指定内容不存在'
+            });
+            return Promise.reject();
+        }else{
+            res.render('admin/content_edit',{
+                userInfo:req.userInfo,
+                content:content
+            })
+        }
+    }).catch(function(){
+
+    })
+})
+
+
 module.exports = router;
