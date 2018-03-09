@@ -393,8 +393,6 @@ router.get('/content/edit', function (req, res, next) {
             });
             return Promise.reject();
         } else {
-        console.log(categories,content)
-            
             res.render('admin/content_edit', {
                 userInfo: req.userInfo,
                 content: content,
@@ -403,6 +401,44 @@ router.get('/content/edit', function (req, res, next) {
         }
     })
 })
+/**
+ * 内容修改保存
+*/
+router.post('/content/edit',function (req, res, next) {
 
+    var id = req.query.id || '';
+    
+    if (req.body.category == '') {
+        res.render('admin/error',{
+            userInfo:req.userInfo,
+            message:'分类不能为空'
+        });
+        return ;
+    }
+
+    if (req.body.title == '') {
+        res.render('admin/error',{
+            userInfo:req.userInfo,
+            message:'内容标题不能为空'
+        });
+        return ;
+    }
+
+    Content.update({
+        _id:id
+    },{
+        category:req.body.category,
+        title:req.body.title,
+        description:req.body.description,
+        content:req.body.content
+    }).then(function () {
+        res.render('admin/success',{
+            userInfo:req.userInfo,
+            message:'内容保存成功',
+            url:'/admin/content/edit?id='+id
+        })
+    })
+
+})
 
 module.exports = router;
