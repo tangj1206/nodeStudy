@@ -8,6 +8,7 @@ var Content = require('../models/Content');
 router.get('/', function (req, res, next) {
     var data = {
         userInfo: req.userInfo,
+        category:req.query.category || '',
         categories: [],
 
         count: 0,
@@ -15,7 +16,12 @@ router.get('/', function (req, res, next) {
         limit: 1,
         pages: 0
     }
+    var where = {};
 
+    if (data.category) {
+        where.category = data.category;
+        
+    }
 
     //读取所有分类信息
     Category.find().then(function (categories) {
@@ -37,10 +43,10 @@ router.get('/', function (req, res, next) {
 
         var skip = (data.page - 1) * data.limit;
 
-        return Content.find().sort({
+        return Content.where(where).find().sort({
             addTime: -1
         }).limit(data.limit).skip(skip).populate(['category', 'user']);
-
+        
     }).then(function (contents) {
         data.contents = contents;
         res.render('main/index', data);
