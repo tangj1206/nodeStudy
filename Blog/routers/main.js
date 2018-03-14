@@ -20,7 +20,6 @@ router.get('/', function (req, res, next) {
 
     if (data.category) {
         where.category = data.category;
-        
     }
 
     //读取所有分类信息
