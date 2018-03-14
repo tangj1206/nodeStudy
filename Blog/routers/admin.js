@@ -307,7 +307,8 @@ router.get('/content', function (req, res, next) {
          * */
         Content.find().sort({
             _id: -1
-        }).limit(limit).skip(skip).populate('category').populate('user').then(function (contents) {
+        }).limit(limit).skip(skip).populate(['category', 'user']).then(function (contents) {
+            console.log(contents);
             res.render('admin/content_index', {
                 userInfo: req.userInfo,
                 contents: contents,
@@ -358,7 +359,7 @@ router.post('/content/add', function (req, res, next) {
     new Content({
         category: req.body.category,
         title: req.body.title,
-        user:req.userInfo._id.toString(),
+        user: req.userInfo._id.toString(),
         description: req.body.description,
         content: req.body.content
     }).save().then(function (rs) {
@@ -452,12 +453,15 @@ router.get('/content/delete', function (req, res) {
     Content.remove({
         _id: id
     }).then(function () {
-        res.render('admin/success',{
-            userInfo:req.userInfo,
-            message:'删除成功',
-            url:'/admin/content'
-        })        
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '删除成功',
+            url: '/admin/content'
+        })
     })
 })
+
+
+
 
 module.exports = router;
