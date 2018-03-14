@@ -59,18 +59,25 @@
                 <ul class="clear">
 
                     <li class="previous">
-
-                        <a href="javascript:;">没有上一页了</a>
+                        {%if page <= 1%}
+                            <span>没有上一页了</span>
+                        {%else%}
+                            <a href="/?page={{ page -1 }}">上一页</a>
+                        {%endif%}
 
                     </li>
 
                     <li>
-                        <strong>1 / 2</strong>
+                        <strong>{{page}}/{{pages}}</strong>
                     </li>
 
                     <li class="next">
 
-                        <a href="/2">下一页</a>
+                        {%if page >= pages%}
+                            <span>没有下一页了</span>
+                        {%else%}
+                            <a href="/?page={{ page + 1 }}">下一页</a>
+                        {%endif%}
 
                     </li>
 

@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
 
         count: 0,
         page: Number(req.query.page || 1),
-        limit: 10,
+        limit: 1,
         pages: 0
     }
 
