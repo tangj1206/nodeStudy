@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
 
         data.categories = categories;
 
-        return Content.count();
+        return Content.where(where).count();
 
     }).then(function (count) {
 
