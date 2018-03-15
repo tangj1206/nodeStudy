@@ -1,4 +1,9 @@
 $(function () {
+    var perpage = 2;
+    var page = 3;
+    var pages = 0;
+    var comments = [];
+    
     //每次页面重载的时候获取一下该文章的所有评论
     $.ajax({
         type: 'GET',
@@ -7,14 +12,10 @@ $(function () {
             contentId: $('#contentId').val()
         },
         success: function (res) {
-            renderComment(res.data.reverse());
+            comments = res.data.reverse();
+            renderComment();
         }
     })
-
-
-    var perpage = 2;
-    var page = 1;
-    var pages = 0;
 
     //提交评论
     $('#messageBtn').on('click', function () {
@@ -26,14 +27,23 @@ $(function () {
                 content: $('#messageContent').val()
             },
             success: function (res) {
+                comments = res.data.comments.reverse();
                 $('#messageContent').val('');
-                renderComment(res.data.comments.reverse());
+                renderComment();
             }
         })
     })
 
+    $('.pager').delegate('a','click',function () {
+        if ($(this).parent().hasClass('previous')) {
+            page--;
+        }else{
+            page++;
+        }
+        renderComment();
+    })
 
-    function renderComment(comments) {
+    function renderComment() {
 
         $('#messageCount').html(comments.length);
 
@@ -43,6 +53,19 @@ $(function () {
 
         var $li = $('.pager li');
         $li.eq(1).html(page + '/' + pages);
+
+        if (page <= 1) {
+            page = 1;
+            $li.eq(0).html('<span>没有上一页了</span>');
+        }else{
+            $li.eq(0).html('<a href="javascript:;">上一页</a>');
+        }
+        if (page >= pages) {
+            page=pages;
+            $li.eq(2).html('<span>没有上一页了</span>');
+        }else{
+            $li.eq(2).html('<a href="javascript:;">下一页</a>');
+        }
 
         var html = '';
         for (let i = start; i < end; i++) {
