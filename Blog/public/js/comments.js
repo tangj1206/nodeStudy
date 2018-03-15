@@ -1,9 +1,9 @@
 $(function () {
     var perpage = 2;
-    var page = 3;
+    var page = 1;
     var pages = 0;
     var comments = [];
-    
+
     //每次页面重载的时候获取一下该文章的所有评论
     $.ajax({
         type: 'GET',
@@ -47,9 +47,9 @@ $(function () {
 
         $('#messageCount').html(comments.length);
 
-        var pages = Math.ceil(comments.length / perpage);
-        var start = (page-1) * perpage;
-        var end = start + perpage;
+        pages =Math.max(1, Math.ceil(comments.length / perpage));
+        var start =Math.max(0, (page-1) * perpage);
+        var end =Math.min( start + perpage, comments.length);
 
         var $li = $('.pager li');
         $li.eq(1).html(page + '/' + pages);
@@ -67,7 +67,10 @@ $(function () {
             $li.eq(2).html('<a href="javascript:;">下一页</a>');
         }
 
-        var html = '';
+        if (comments.length == 0) {
+            $('#messageList').html('<div class="messageBox"><p>还没有评论</p></div>');
+        } else {
+            var html = '';
         for (let i = start; i < end; i++) {
             html += `<div class="messageBox">
                         <p class="name clear">
@@ -77,6 +80,9 @@ $(function () {
                         <p>`+comments[i].content+`</p>
                     </div>`;
         }
+        }
+
+        
         $('#messageList').html(html);
     }
 
