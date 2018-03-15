@@ -19,6 +19,7 @@
     {% if userInfo._id %}
     <p class="textLeft">zmouse</p>
     <p class="textLeft clear">
+        <input type="hidden" name="" id="contentId" value="{{  content.id }}">
         <textarea id="messageContent"></textarea><button id="messageBtn" class="submit">提交</button>
     </p>
     {%else%}
@@ -39,4 +40,5 @@
     </div>
 
 </div>
+<script src="/js/comments.js"></script>
 {%endblock%}

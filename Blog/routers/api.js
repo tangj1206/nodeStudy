@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var Content = require('../models/Content');
 
 
 //统一返回格式
@@ -133,7 +134,7 @@ router.get('/user/logout',function (req, res, next) {
 /**
  * 评论提交
  */
-router.post('/comment/post',function(){
+router.post('/comment/post',function(req, res, next){
     //内容的id
     var contentId = req.body.contentId;
     var postData = {
