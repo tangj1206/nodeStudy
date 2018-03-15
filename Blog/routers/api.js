@@ -151,6 +151,7 @@ router.post('/comment/post',function(req, res, next){
        return  content.save();
     }).then(function (newContent) {
         responseData.message = '评论成功';
+        responseData.data = newContent;
         res.json(responseData);
     })
 });

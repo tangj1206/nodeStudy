@@ -10,9 +10,24 @@ $(function () {
                 content: $('#messageContent').val()
             },
             success: function (res) {
-                console.log(res);
+                $('#messageContent').val('');
+                renderComment(res.data.comments);
             }
         })
     })
 
+
+    function renderComment(comments) {
+        var html = '';
+        for (let i = 0; i < comments.length; i++) {
+            html += `<div class="messageBox">
+                        <p class="name clear">
+                            <span class="fl">`+comments[i].username+`</span>
+                            <span class="fr">`+comments[i].postTime+`</span>
+                        </p>
+                        <p>`+comments[i].content+`</p>
+                    </div>`;
+        }
+        $('#messageList').append(html);
+    }
 })
