@@ -1,4 +1,15 @@
 $(function () {
+    //每次页面重载的时候获取一下该文章的所有评论
+    $.ajax({
+        type: 'GET',
+        url: '/api/comment',
+        data: {
+            contentId: $('#contentId').val()
+        },
+        success: function (res) {
+            renderComment(res.data.reverse());
+        }
+    })
 
     //提交评论
     $('#messageBtn').on('click', function () {

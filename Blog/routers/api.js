@@ -130,6 +130,20 @@ router.get('/user/logout',function (req, res, next) {
     return;
 })
 
+/**
+ * 获取指定文章的所有评价
+ */
+ router.get('/comment',function(req, res){
+     var contentId = req.query.contentId || '';
+
+     Content.findOne({
+         _id:contentId
+     }).then(function( content ){
+        responseData.data = content.comments;
+        res.json(responseData);
+     });
+ });
+
 
 /**
  * 评论提交
