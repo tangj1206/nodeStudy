@@ -128,4 +128,29 @@ router.get('/user/logout',function (req, res, next) {
     res.json(responseData);
     return;
 })
+
+
+/**
+ * 评论提交
+ */
+router.post('/comment/post',function(){
+    //内容的id
+    var contentId = req.body.contentId;
+    var postData = {
+        username:req.userInfo.username,
+        postTime:new Date(),
+        content:req.body.content
+    }
+    
+    //查询当前这篇内容的信息
+    Content.findOne({
+        _id:contentId
+    }).then(function ( content) {
+        content.comments.push(postData);
+       return  content.save();
+    }).then(function (newContent) {
+        responseData.message = '评论成功';
+        res.json(responseData);
+    })
+});
 module.exports = router;
