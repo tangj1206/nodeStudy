@@ -11,7 +11,7 @@ $(function () {
             },
             success: function (res) {
                 $('#messageContent').val('');
-                renderComment(res.data.comments);
+                renderComment(res.data.comments.reverse());
             }
         })
     })
