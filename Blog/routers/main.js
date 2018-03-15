@@ -68,6 +68,9 @@ router.get('/view', function (req, res) {
     }).then(function (content) {
         data.content = content;
 
+        content.views++;
+        content.save();
+
         res.render('main/view',data);
     })
 });
